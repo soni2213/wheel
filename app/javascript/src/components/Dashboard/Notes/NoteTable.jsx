@@ -1,6 +1,19 @@
 import React from "react";
 
-import { Checkbox } from "neetoui";
+import { Checkbox, Badge, Avatar, Button, Tooltip } from "neetoui";
+
+const getTagColor = tag => {
+  switch (tag) {
+    case "Internal":
+      return "blue";
+    case "Agile Workflow":
+      return "green";
+    case "Bug":
+      return "red";
+    default:
+      return "gray";
+  }
+};
 
 export default function NoteTable({
   selectedNoteIds,
@@ -29,6 +42,10 @@ export default function NoteTable({
             </th>
             <th className="text-left">Title</th>
             <th className="text-left">Description</th>
+            <th className="text-left">Tags</th>
+            <th className="text-left">Created Date</th>
+            <th className="text-left">Due Date</th>
+            <th className="text-left">Contact</th>
           </tr>
         </thead>
         <tbody>
@@ -61,6 +78,28 @@ export default function NoteTable({
                 </div>
               </td>
               <td>{note.description}</td>
+              <td>
+                {note.tags.map((tag, index) => (
+                  <Badge color={getTagColor(tag)} key={index}>
+                    {tag}
+                  </Badge>
+                ))}
+              </td>
+              <td>{note.created_at}</td>
+              <td>{note.due_date || "--"}</td>
+              <td>
+                <Avatar size={36} contact={{ name: note.assignee_name }} />
+              </td>
+              <td>
+                <Tooltip content="Edit" position="bottom">
+                  <Button style="icon" icon="ri-pencil-line" />
+                </Tooltip>
+              </td>
+              <td>
+                <Tooltip content="Delete" position="bottom">
+                  <Button style="icon" icon="ri-delete-bin-line" />
+                </Tooltip>
+              </td>
             </tr>
           ))}
         </tbody>

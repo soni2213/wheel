@@ -11,6 +11,7 @@ gem "sprockets"
 gem "sprockets-rails"
 gem "sass-rails", ">= 6"
 gem "uglifier", ">= 2.7.1"
+gem "active_model_serializers"
 
 gem "webpacker"
 

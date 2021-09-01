@@ -6,6 +6,7 @@ import { Header, SubHeader } from "neetoui/layouts";
 
 import notesApi from "apis/notes";
 import EmptyState from "components/Common/EmptyState";
+import constants from "constants/notes";
 
 import DeleteAlert from "./DeleteAlert";
 import NewNotePane from "./NewNotePane";
@@ -61,6 +62,19 @@ const Notes = () => {
             deleteButtonProps={{
               onClick: () => setShowDeleteAlert(true),
               disabled: !selectedNoteIds.length
+            }}
+            sortProps={{
+              options: constants.SORT_BY_OPTIONS,
+              onClick: () => {},
+              sortBy: {
+                column: constants.SORT_BY_OPTIONS[0].value,
+                direction: "desc"
+              }
+            }}
+            paginationProps={{
+              count: notes.length,
+              pageNo: 1,
+              pageSize: 10
             }}
           />
           <NoteTable
