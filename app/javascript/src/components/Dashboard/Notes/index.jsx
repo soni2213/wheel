@@ -81,6 +81,7 @@ const Notes = () => {
             selectedNoteIds={selectedNoteIds}
             setSelectedNoteIds={setSelectedNoteIds}
             notes={notes}
+            deleteAction={() => setShowDeleteAlert(true)}
           />
         </>
       ) : (
