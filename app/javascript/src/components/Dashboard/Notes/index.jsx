@@ -6,6 +6,7 @@ import { Header, SubHeader } from "neetoui/layouts";
 
 import EmptyState from "components/Common/EmptyState";
 import constants from "constants/notes";
+import { useNoteState, useNoteDispatch } from "contexts/note";
 
 import DeleteAlert from "./DeleteAlert";
 import NewNotePane from "./NewNotePane";
@@ -17,7 +18,8 @@ const Notes = () => {
   const [showDeleteAlert, setShowDeleteAlert] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedNoteIds, setSelectedNoteIds] = useState([]);
-  const [notes, setNotes] = useState([]);
+  const { notes } = useNoteState();
+  const noteDispatch = useNoteDispatch();
 
   useEffect(() => {
     fetchNotes();
@@ -35,7 +37,10 @@ const Notes = () => {
     try {
       setLoading(true);
       const response = await getNotesAfter1Sec();
-      setNotes(response.data.notes);
+      noteDispatch({
+        type: "SET_NOTES",
+        payload: { notes: response.data.notes }
+      });
     } catch (error) {
       logger.error(error);
     } finally {
@@ -104,13 +109,11 @@ const Notes = () => {
       <NewNotePane
         showPane={showNewNotePane}
         setShowPane={setShowNewNotePane}
-        fetchNotes={fetchNotes}
       />
       {showDeleteAlert && (
         <DeleteAlert
           selectedNoteIds={selectedNoteIds}
           onClose={() => setShowDeleteAlert(false)}
-          refetch={fetchNotes}
         />
       )}
     </>

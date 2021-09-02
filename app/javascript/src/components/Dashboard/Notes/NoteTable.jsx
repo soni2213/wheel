@@ -26,6 +26,8 @@ export default function NoteTable({
     deleteAction();
   };
 
+  const performEdit = () => {};
+
   return (
     <div className="w-full px-4">
       <table className="nui-table nui-table--checkbox table-fixed">
@@ -79,17 +81,15 @@ export default function NoteTable({
                 />
               </td>
               <td>
-                <div className="flex flex-row items-center justify-start text-blue-700">
-                  {note.title}
-                </div>
+                <Button
+                  label={note.title}
+                  style="link"
+                  onClick={() => performEdit()}
+                ></Button>
               </td>
               <td className="truncate">{note.description}</td>
               <td>
-                {note.tags.map((tag, index) => (
-                  <Badge color={getTagColor(tag)} key={index}>
-                    {tag}
-                  </Badge>
-                ))}
+                <Badge color={getTagColor(note.tags)}>{note.tags}</Badge>
               </td>
               <td>{note.createdDate}</td>
               <td>{note.dueDate || "--"}</td>
@@ -103,7 +103,11 @@ export default function NoteTable({
               <td>
                 <div className="flex">
                   <Tooltip className="px-4" content="Edit" position="bottom">
-                    <Button style="icon" icon="ri-pencil-line" />
+                    <Button
+                      style="icon"
+                      icon="ri-pencil-line"
+                      onClick={() => performEdit()}
+                    />
                   </Tooltip>
                   <Tooltip content="Delete" position="bottom">
                     <Button

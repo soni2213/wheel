@@ -22,5 +22,11 @@ export default {
     firstName: Yup.string().required("Required"),
     lastName: Yup.string().required("Required"),
     password: Yup.string().required("Required")
+  }),
+  newNoteform: Yup.object().shape({
+    contact: Yup.string().required("Assignee is required"),
+    description: Yup.string().required("Description is required"),
+    tags: Yup.string().required("Tag is required"),
+    title: Yup.string().required("Title is required")
   })
 };
