@@ -18,8 +18,14 @@ const getTagColor = tag => {
 export default function NoteTable({
   selectedNoteIds,
   setSelectedNoteIds,
-  notes = []
+  notes = [],
+  deleteAction
 }) {
+  const performDelete = noteId => {
+    setSelectedNoteIds([noteId]);
+    deleteAction();
+  };
+
   return (
     <div className="w-full px-4">
       <table className="nui-table nui-table--checkbox table-fixed">
@@ -100,7 +106,11 @@ export default function NoteTable({
                     <Button style="icon" icon="ri-pencil-line" />
                   </Tooltip>
                   <Tooltip content="Delete" position="bottom">
-                    <Button style="icon" icon="ri-delete-bin-line" />
+                    <Button
+                      style="icon"
+                      icon="ri-delete-bin-line"
+                      onClick={() => performDelete(note.id)}
+                    />
                   </Tooltip>
                 </div>
               </td>
