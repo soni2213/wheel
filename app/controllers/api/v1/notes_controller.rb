@@ -5,7 +5,7 @@ class Api::V1::NotesController < Api::V1::BaseController
   before_action :load_notes!, only: :bulk_delete
 
   def index
-    render json: { notes: current_user.notes.includes([:assignee]).map { |note| NoteSerializer.new(note).attributes } }
+    render json: { notes: current_user.notes }
   end
 
   def create
@@ -36,7 +36,7 @@ class Api::V1::NotesController < Api::V1::BaseController
   private
 
     def note_params
-      params.require(:note).permit(:title, :description, :tags, :due_date, :contact_id)
+      params.require(:note).permit(:title, :description)
     end
 
     def load_note!
