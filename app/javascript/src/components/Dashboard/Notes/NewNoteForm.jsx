@@ -18,6 +18,7 @@ export default function NewNoteForm({ onClose }) {
   const handleSubmit = async values => {
     let note = {
       ...values,
+      id: Math.floor(Math.random() * (10 - 4)) + 4, // To generate a random number for id
       dueDate: values.dueDate
         ? dayjs(values.dueDate, "DD/MM/YYYY").format("MMM DD, YYYY")
         : "",

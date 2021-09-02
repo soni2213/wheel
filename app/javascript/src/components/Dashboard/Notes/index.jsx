@@ -93,7 +93,6 @@ const Notes = () => {
           <NoteTable
             selectedNoteIds={selectedNoteIds}
             setSelectedNoteIds={setSelectedNoteIds}
-            setShowNewNotePane={setShowNewNotePane}
             notes={notes}
             deleteAction={() => setShowDeleteAlert(true)}
           />
