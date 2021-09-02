@@ -1,17 +1,22 @@
 import React, { useState } from "react";
 
-import { Alert } from "neetoui";
+import { Alert, Toastr } from "neetoui";
 
-import notesApi from "apis/notes";
+import { useNoteDispatch } from "contexts/note";
 
-export default function DeleteAlert({ refetch, onClose, selectedNoteIds }) {
+export default function DeleteAlert({ onClose, selectedNoteIds }) {
   const [deleting, setDeleting] = useState(false);
+  const noteDispatch = useNoteDispatch();
+
   const handleDelete = async () => {
     try {
       setDeleting(true);
-      await notesApi.destroy({ ids: selectedNoteIds });
+      noteDispatch({
+        type: "DELETE_NOTE",
+        payload: { noteIds: selectedNoteIds }
+      });
       onClose();
-      refetch();
+      Toastr.success("Note deleted successfully");
     } catch (error) {
       logger.error(error);
     } finally {

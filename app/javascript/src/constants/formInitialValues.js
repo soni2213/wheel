@@ -16,8 +16,8 @@ export default {
   newNoteform: {
     title: "",
     description: "",
-    tags: [],
-    assignee: [],
-    due_date: ""
+    tags: "",
+    contact: "",
+    dueDate: ""
   }
 };

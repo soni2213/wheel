@@ -10,7 +10,7 @@ import formValidationSchemas from "constants/formValidationSchemas";
 import constants from "constants/notes";
 import { useNoteDispatch } from "contexts/note";
 
-export default function NewNoteForm({ onClose }) {
+export default function EditNoteForm({ onClose }) {
   const [submitted, setSubmitted] = useState(false);
   const [checked, setSwitchCheckbox] = useState(false);
   const noteDispatch = useNoteDispatch();
