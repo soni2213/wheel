@@ -22,7 +22,7 @@ export default function NoteTable({
 }) {
   return (
     <div className="w-full px-4">
-      <table className="nui-table nui-table--checkbox">
+      <table className="nui-table nui-table--checkbox table-fixed">
         <thead>
           <tr>
             <th>
@@ -73,11 +73,11 @@ export default function NoteTable({
                 />
               </td>
               <td>
-                <div className="flex flex-row items-center justify-start text-gray-900">
+                <div className="flex flex-row items-center justify-start text-blue-700">
                   {note.title}
                 </div>
               </td>
-              <td>{note.description}</td>
+              <td className="truncate">{note.description}</td>
               <td>
                 {note.tags.map((tag, index) => (
                   <Badge color={getTagColor(tag)} key={index}>
@@ -85,20 +85,24 @@ export default function NoteTable({
                   </Badge>
                 ))}
               </td>
-              <td>{note.created_at}</td>
-              <td>{note.due_date || "--"}</td>
+              <td>{note.createdDate}</td>
+              <td>{note.dueDate || "--"}</td>
               <td>
-                <Avatar size={36} contact={{ name: note.assignee_name }} />
+                <Avatar
+                  size={36}
+                  bgClassName="bg-indigo-200"
+                  contact={{ name: note.contact }}
+                />
               </td>
               <td>
-                <Tooltip content="Edit" position="bottom">
-                  <Button style="icon" icon="ri-pencil-line" />
-                </Tooltip>
-              </td>
-              <td>
-                <Tooltip content="Delete" position="bottom">
-                  <Button style="icon" icon="ri-delete-bin-line" />
-                </Tooltip>
+                <div className="flex">
+                  <Tooltip className="px-4" content="Edit" position="bottom">
+                    <Button style="icon" icon="ri-pencil-line" />
+                  </Tooltip>
+                  <Tooltip content="Delete" position="bottom">
+                    <Button style="icon" icon="ri-delete-bin-line" />
+                  </Tooltip>
+                </div>
               </td>
             </tr>
           ))}

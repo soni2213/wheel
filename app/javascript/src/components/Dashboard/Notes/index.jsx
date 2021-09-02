@@ -4,7 +4,6 @@ import EmptyNotesListImage from "images/EmptyNotesList";
 import { Button, PageLoader } from "neetoui";
 import { Header, SubHeader } from "neetoui/layouts";
 
-import notesApi from "apis/notes";
 import EmptyState from "components/Common/EmptyState";
 import constants from "constants/notes";
 
@@ -24,10 +23,18 @@ const Notes = () => {
     fetchNotes();
   }, []);
 
+  const getNotesAfter1Sec = async () => {
+    return new Promise(resolve => {
+      setTimeout(() => {
+        resolve({ data: { notes: constants.NOTES } });
+      }, 1000);
+    });
+  };
+
   const fetchNotes = async () => {
     try {
       setLoading(true);
-      const response = await notesApi.fetch();
+      const response = await getNotesAfter1Sec();
       setNotes(response.data.notes);
     } catch (error) {
       logger.error(error);
@@ -46,7 +53,7 @@ const Notes = () => {
         actionBlock={
           <Button
             onClick={() => setShowNewNotePane(true)}
-            label="Add New Note"
+            label="New Note"
             icon="ri-add-line"
           />
         }
@@ -54,6 +61,7 @@ const Notes = () => {
       {notes.length ? (
         <>
           <SubHeader
+            toggleFilter={() => {}}
             searchProps={{
               value: searchTerm,
               onChange: e => setSearchTerm(e.target.value),
@@ -89,7 +97,7 @@ const Notes = () => {
           title="Looks like you don't have any notes!"
           subtitle="Add your notes to send customized emails to them."
           primaryAction={() => setShowNewNotePane(true)}
-          primaryActionLabel="Add New Note"
+          primaryActionLabel="Add Note"
         />
       )}
       <NewNotePane
