@@ -12,5 +12,12 @@ export default {
     lastName: "",
     password: "",
     passwordConfirmation: ""
+  },
+  newNoteform: {
+    title: "",
+    description: "",
+    tags: [],
+    assignee: [],
+    due_date: ""
   }
 };

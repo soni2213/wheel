@@ -1,38 +1,80 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { Formik, Form } from "formik";
-import { Button } from "neetoui";
+import { Button, Select, Switch } from "neetoui";
 import { Input, Textarea } from "neetoui/formik";
-import * as yup from "yup";
 
 import notesApi from "apis/notes";
+import formInitialValues from "constants/formInitialValues";
+import formValidationSchemas from "constants/formValidationSchemas";
+import constants from "constants/notes";
 
 export default function NewNoteForm({ onClose, refetch }) {
+  const [submitted, setSubmitted] = useState(false);
+  const [checked, setSwitchCheckbox] = useState(false);
+
   const handleSubmit = async values => {
     try {
+      setSubmitted(true);
       await notesApi.create(values);
       refetch();
       onClose();
     } catch (err) {
       logger.error(err);
+    } finally {
+      setSubmitted(false);
     }
   };
+
   return (
     <Formik
-      initialValues={{
-        title: "",
-        description: ""
-      }}
+      initialValues={formInitialValues.newNoteform}
+      validateOnBlur={submitted}
+      validateOnChange={submitted}
       onSubmit={handleSubmit}
-      validationSchema={yup.object({
-        title: yup.string().required("Title is required"),
-        description: yup.string().required("Description is required")
-      })}
+      validationSchema={formValidationSchemas.newNoteform}
     >
       {({ isSubmitting }) => (
         <Form>
-          <Input label="Title" name="title" className="mb-6" />
-          <Textarea label="Description" name="description" rows={8} />
+          <Input label="Note Title" name="title" className="mb-6" />
+          <Select
+            label="Tags"
+            className="mb-6"
+            defaultValue={constants.TAGS[0]}
+            placeholder="Select an Option"
+            isDisabled={false}
+            isClearable={true}
+            isSearchable={true}
+            name="tags"
+            options={constants.TAGS}
+          />
+          <Textarea
+            label="Note Description"
+            name="description"
+            rows={8}
+            className="mb-6"
+          />
+          <Select
+            label="Assigned Contact"
+            className="mb-6"
+            defaultValue={constants.CONTACTS[0]}
+            placeholder="Select an Option"
+            isDisabled={false}
+            isClearable={true}
+            isSearchable={true}
+            name="assignee"
+            options={constants.CONTACTS}
+          />
+          <div className="p-4">
+            <Switch
+              label="Add Due Date to Note"
+              onChange={() => setSwitchCheckbox(!checked)}
+              checked={checked}
+            />
+          </div>
+          {checked && (
+            <Input label="Due Date" name="due_date" className="mb-6" />
+          )}
           <div className="nui-pane__footer nui-pane__footer--absolute">
             <Button
               onClick={onClose}
