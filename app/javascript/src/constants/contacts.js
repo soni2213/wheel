@@ -6,7 +6,7 @@ export default {
       email: "john@doe.com",
       department: "Engineering",
       mobile: "9999999999",
-      inBaseCamp: false
+      inBasecamp: false
     },
     {
       id: 2,
@@ -14,7 +14,7 @@ export default {
       email: "mr@nobody.com",
       department: "R&D",
       mobile: "8888888888",
-      inBaseCamp: true
+      inBasecamp: true
     },
     {
       id: 3,
@@ -22,12 +22,12 @@ export default {
       email: "john@white.com",
       department: "Engineering",
       mobile: "7777777777",
-      inBaseCamp: false
+      inBasecamp: false
     }
   ],
   SORT_BY_OPTIONS: [
     { label: "department", value: "department" },
-    { label: "In Basecamp", value: "inBaseCamp" }
+    { label: "In Basecamp", value: "inBasecamp" }
   ],
   DEPARTMENTS: ["Engineering", "R&D"]
 };

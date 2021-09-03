@@ -5,9 +5,17 @@ import { Checkbox, Avatar, Button, Tooltip } from "neetoui";
 export default function ContactTable({
   selectedContactIds,
   setSelectedContactIds,
-  contacts = []
+  contacts = [],
+  deleteAction
 }) {
   const [checkedContactIds, setCheckedContactIds] = useState([]);
+
+  const handleContactDelete = noteId => {
+    setSelectedContactIds([noteId]);
+    deleteAction();
+  };
+
+  const handleContactUpdate = () => {};
 
   return (
     <div className="w-full px-4">
@@ -77,8 +85,10 @@ export default function ContactTable({
               <td>{contact.mobile}</td>
               <td>
                 <Checkbox
-                  name="inBaseCamp"
-                  checked={checkedContactIds.includes(contact.id)}
+                  name="inBasecamp"
+                  checked={
+                    checkedContactIds.includes(contact.id) || contact.inBasecamp
+                  }
                   onChange={event => {
                     event.stopPropagation();
                     const index = checkedContactIds.indexOf(contact.id);
@@ -100,14 +110,14 @@ export default function ContactTable({
                     <Button
                       style="icon"
                       icon="ri-pencil-line"
-                      onClick={() => {}}
+                      onClick={() => handleContactUpdate()}
                     />
                   </Tooltip>
                   <Tooltip content="Delete" position="bottom">
                     <Button
                       style="icon"
                       icon="ri-delete-bin-line"
-                      onClick={() => {}}
+                      onClick={() => handleContactDelete(contact.id)}
                     />
                   </Tooltip>
                 </div>
