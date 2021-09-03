@@ -25,7 +25,7 @@ const Notes = () => {
     fetchNotes();
   }, []);
 
-  const getNotesAfter1Sec = async () => {
+  const getNotes = async () => {
     return new Promise(resolve => {
       setTimeout(() => {
         resolve({ data: { notes: constants.NOTES } });
@@ -36,7 +36,7 @@ const Notes = () => {
   const fetchNotes = async () => {
     try {
       setLoading(true);
-      const response = await getNotesAfter1Sec();
+      const response = await getNotes();
       noteDispatch({
         type: "SET_NOTES",
         payload: { notes: response.data.notes }

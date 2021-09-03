@@ -2,7 +2,7 @@ import React from "react";
 
 import { Checkbox, Badge, Avatar, Button, Tooltip } from "neetoui";
 
-const getTagColor = tag => {
+const renderTagColor = tag => {
   switch (tag) {
     case "Internal":
       return "blue";
@@ -21,16 +21,16 @@ export default function NoteTable({
   notes = [],
   deleteAction
 }) {
-  const performDelete = noteId => {
+  const handleNoteDelete = noteId => {
     setSelectedNoteIds([noteId]);
     deleteAction();
   };
 
-  const performEdit = () => {};
+  const handleNoteUpdate = () => {};
 
   return (
     <div className="w-full px-4">
-      <table className="nui-table nui-table--checkbox table-fixed">
+      <table className="nui-table nui-table--checkbox">
         <thead>
           <tr>
             <th>
@@ -84,12 +84,12 @@ export default function NoteTable({
                 <Button
                   label={note.title}
                   style="link"
-                  onClick={() => performEdit()}
+                  onClick={() => handleNoteUpdate()}
                 ></Button>
               </td>
-              <td className="truncate">{note.description}</td>
+              <td className="truncate max-w-xs">{note.description}</td>
               <td>
-                <Badge color={getTagColor(note.tags)}>{note.tags}</Badge>
+                <Badge color={renderTagColor(note.tags)}>{note.tags}</Badge>
               </td>
               <td>{note.createdDate}</td>
               <td>{note.dueDate || "--"}</td>
@@ -106,14 +106,14 @@ export default function NoteTable({
                     <Button
                       style="icon"
                       icon="ri-pencil-line"
-                      onClick={() => performEdit()}
+                      onClick={() => handleNoteUpdate()}
                     />
                   </Tooltip>
                   <Tooltip content="Delete" position="bottom">
                     <Button
                       style="icon"
                       icon="ri-delete-bin-line"
-                      onClick={() => performDelete(note.id)}
+                      onClick={() => handleNoteDelete(note.id)}
                     />
                   </Tooltip>
                 </div>
