@@ -9,7 +9,11 @@ import formInitialValues from "constants/formInitialValues";
 import formValidationSchemas from "constants/formValidationSchemas";
 import { useContactDispatch } from "contexts/contact";
 
-export default function NewContactForm({ onClose }) {
+export default function NewContactForm({
+  onClose,
+  checkedContactIds,
+  setCheckedContactIds
+}) {
   const [submitted, setSubmitted] = useState(false);
   const [checked, setSwitchCheckbox] = useState(false);
   const contactDispatch = useContactDispatch();
@@ -25,6 +29,9 @@ export default function NewContactForm({ onClose }) {
         type: "ADD_CONTACT",
         payload: { contact }
       });
+      if (values.inBasecamp) {
+        setCheckedContactIds([...checkedContactIds, contact.id]);
+      }
       onClose();
       Toastr.success("Contact added successfully");
     } catch (err) {

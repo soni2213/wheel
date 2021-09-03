@@ -18,6 +18,7 @@ const Contacts = () => {
   const [showDeleteAlert, setShowDeleteAlert] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedContactIds, setSelectedContactIds] = useState([]);
+  const [checkedContactIds, setCheckedContactIds] = useState([]);
   const { contacts } = useContactState();
   const contactDispatch = useContactDispatch();
 
@@ -93,6 +94,8 @@ const Contacts = () => {
           <ContactTable
             selectedContactIds={selectedContactIds}
             setSelectedContactIds={setSelectedContactIds}
+            checkedContactIds={checkedContactIds}
+            setCheckedContactIds={setCheckedContactIds}
             contacts={contacts}
             deleteAction={() => setShowDeleteAlert(true)}
           />
@@ -109,6 +112,8 @@ const Contacts = () => {
       <NewContactPane
         showPane={showNewContactPane}
         setShowPane={setShowNewContactPane}
+        checkedContactIds={checkedContactIds}
+        setCheckedContactIds={setCheckedContactIds}
       />
       {showDeleteAlert && (
         <DeleteAlert

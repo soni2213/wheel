@@ -1,14 +1,22 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 
 import { Checkbox, Avatar, Button, Tooltip } from "neetoui";
 
 export default function ContactTable({
   selectedContactIds,
   setSelectedContactIds,
+  checkedContactIds,
+  setCheckedContactIds,
   contacts = [],
   deleteAction
 }) {
-  const [checkedContactIds, setCheckedContactIds] = useState([]);
+  useEffect(() => {
+    const contactIds = contacts
+      .filter(contact => contact.inBasecamp)
+      .map(contact => contact.id);
+
+    setCheckedContactIds([...checkedContactIds, ...contactIds]);
+  }, []);
 
   const handleContactDelete = noteId => {
     setSelectedContactIds([noteId]);
@@ -16,6 +24,16 @@ export default function ContactTable({
   };
 
   const handleContactUpdate = () => {};
+
+  const handleCheckboxAction = (contactIds, action, contact) => {
+    const index = contactIds.indexOf(contact.id);
+
+    if (index > -1) {
+      action([...contactIds.slice(0, index), ...contactIds.slice(index + 1)]);
+    } else {
+      action([...contactIds, contact.id]);
+    }
+  };
 
   return (
     <div className="w-full px-4">
@@ -47,28 +65,17 @@ export default function ContactTable({
         </thead>
         <tbody>
           {contacts.map(contact => (
-            <tr
-              key={contact.id}
-              className={"cursor-pointer bg-white hover:bg-gray-50"}
-            >
+            <tr key={contact.id}>
               <td>
                 <Checkbox
                   checked={selectedContactIds.includes(contact.id)}
                   onClick={event => {
                     event.stopPropagation();
-                    const index = selectedContactIds.indexOf(contact.id);
-
-                    if (index > -1) {
-                      setSelectedContactIds([
-                        ...selectedContactIds.slice(0, index),
-                        ...selectedContactIds.slice(index + 1)
-                      ]);
-                    } else {
-                      setSelectedContactIds([
-                        ...selectedContactIds,
-                        contact.id
-                      ]);
-                    }
+                    handleCheckboxAction(
+                      selectedContactIds,
+                      setSelectedContactIds,
+                      contact
+                    );
                   }}
                 />
               </td>
@@ -86,27 +93,20 @@ export default function ContactTable({
               <td>
                 <Checkbox
                   name="inBasecamp"
-                  checked={
-                    checkedContactIds.includes(contact.id) || contact.inBasecamp
-                  }
+                  checked={checkedContactIds.includes(contact.id)}
                   onChange={event => {
                     event.stopPropagation();
-                    const index = checkedContactIds.indexOf(contact.id);
-
-                    if (index > -1) {
-                      setCheckedContactIds([
-                        ...checkedContactIds.slice(0, index),
-                        ...checkedContactIds.slice(index + 1)
-                      ]);
-                    } else {
-                      setCheckedContactIds([...checkedContactIds, contact.id]);
-                    }
+                    handleCheckboxAction(
+                      checkedContactIds,
+                      setCheckedContactIds,
+                      contact
+                    );
                   }}
                 />
               </td>
               <td>
-                <div className="flex">
-                  <Tooltip className="px-4" content="Edit" position="bottom">
+                <div className="flex space-x-4">
+                  <Tooltip content="Edit" position="bottom">
                     <Button
                       style="icon"
                       icon="ri-pencil-line"

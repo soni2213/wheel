@@ -26,8 +26,8 @@ export default {
     }
   ],
   SORT_BY_OPTIONS: [
-    { label: "department", value: "department" },
-    { label: "In Basecamp", value: "inBasecamp" }
+    { label: "Name", value: "name" },
+    { label: "Department", value: "department" }
   ],
   DEPARTMENTS: ["Engineering", "R&D"]
 };
