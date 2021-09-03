@@ -19,5 +19,12 @@ export default {
     tags: "",
     contact: "",
     dueDate: ""
+  },
+  newContactform: {
+    department: "",
+    email: "",
+    inBasecamp: false,
+    mobile: "",
+    name: ""
   }
 };

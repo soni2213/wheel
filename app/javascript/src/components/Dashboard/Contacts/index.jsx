@@ -9,11 +9,16 @@ import constants from "constants/contacts";
 import { useContactState, useContactDispatch } from "contexts/contact";
 
 import ContactTable from "./ContactTable";
+import DeleteAlert from "./DeleteAlert";
+import NewContactPane from "./NewContactPane";
 
 const Contacts = () => {
   const [loading, setLoading] = useState(true);
+  const [showNewContactPane, setShowNewContactPane] = useState(false);
+  const [showDeleteAlert, setShowDeleteAlert] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedContactIds, setSelectedContactIds] = useState([]);
+  const [checkedContactIds, setCheckedContactIds] = useState([]);
   const { contacts } = useContactState();
   const contactDispatch = useContactDispatch();
 
@@ -52,7 +57,11 @@ const Contacts = () => {
       <Header
         title="Contacts"
         actionBlock={
-          <Button onClick={() => {}} label="New Contact" icon="ri-add-line" />
+          <Button
+            onClick={() => setShowNewContactPane(true)}
+            label="New Contact"
+            icon="ri-add-line"
+          />
         }
       />
       {contacts.length ? (
@@ -85,7 +94,10 @@ const Contacts = () => {
           <ContactTable
             selectedContactIds={selectedContactIds}
             setSelectedContactIds={setSelectedContactIds}
+            checkedContactIds={checkedContactIds}
+            setCheckedContactIds={setCheckedContactIds}
             contacts={contacts}
+            deleteAction={() => setShowDeleteAlert(true)}
           />
         </>
       ) : (
@@ -93,8 +105,20 @@ const Contacts = () => {
           image={EmptyContactsListImage}
           title="Looks like you don't have any contacts!"
           subtitle="Add your contacts to send customized emails to them."
-          primaryAction={() => {}}
+          primaryAction={() => setShowNewContactPane(true)}
           primaryActionLabel="Add Contact"
+        />
+      )}
+      <NewContactPane
+        showPane={showNewContactPane}
+        setShowPane={setShowNewContactPane}
+        checkedContactIds={checkedContactIds}
+        setCheckedContactIds={setCheckedContactIds}
+      />
+      {showDeleteAlert && (
+        <DeleteAlert
+          selectedContactIds={selectedContactIds}
+          onClose={() => setShowDeleteAlert(false)}
         />
       )}
     </>
