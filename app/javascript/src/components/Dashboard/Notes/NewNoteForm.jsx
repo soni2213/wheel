@@ -40,7 +40,7 @@ export default function NewNoteForm({ onClose }) {
     }
   };
 
-  const getOptions = options => {
+  const transformTagOptions = options => {
     return options.map(opt => ({ label: opt, value: opt.toLowerCase() }));
   };
 
@@ -53,34 +53,26 @@ export default function NewNoteForm({ onClose }) {
       validationSchema={formValidationSchemas.newNoteform}
     >
       {({ isSubmitting, values, setFieldValue }) => (
-        <Form>
-          <Input label="Note Title" name="title" className="mb-6" />
+        <Form className="space-y-6">
+          <Input label="Note Title" name="title" />
           <Select
             placeholder="Select an option"
             label="Tags"
-            className="mb-6"
             isDisabled={false}
             name="tags"
             onChange={tag => setFieldValue("tags", tag.value)}
-            options={getOptions(constants.TAGS)}
+            options={transformTagOptions(constants.TAGS)}
           />
-          <Textarea
-            label="Note Description"
-            name="description"
-            rows={8}
-            className="mb-6"
-          />
+          <Textarea label="Note Description" name="description" rows={8} />
           <Select
             placeholder="Select an option"
             label="Assigned Contact"
-            className="mb-6"
             isDisabled={false}
             name="contact"
             onChange={assignee => setFieldValue("contact", assignee.value)}
-            options={getOptions(constants.CONTACTS)}
+            options={transformTagOptions(constants.CONTACTS)}
           />
           <Switch
-            className="mb-6"
             label="Add Due Date to Note"
             onChange={() => setSwitchCheckbox(!checked)}
             checked={checked}

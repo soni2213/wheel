@@ -21,12 +21,12 @@ export default function NoteTable({
   notes = [],
   deleteAction
 }) {
-  const performDelete = noteId => {
+  const handleNoteDelete = noteId => {
     setSelectedNoteIds([noteId]);
     deleteAction();
   };
 
-  const performEdit = () => {};
+  const handleNoteUpdate = () => {};
 
   return (
     <div className="w-full px-4">
@@ -84,7 +84,7 @@ export default function NoteTable({
                 <Button
                   label={note.title}
                   style="link"
-                  onClick={() => performEdit()}
+                  onClick={() => handleNoteUpdate()}
                 ></Button>
               </td>
               <td className="truncate max-w-xs">{note.description}</td>
@@ -106,14 +106,14 @@ export default function NoteTable({
                     <Button
                       style="icon"
                       icon="ri-pencil-line"
-                      onClick={() => performEdit()}
+                      onClick={() => handleNoteUpdate()}
                     />
                   </Tooltip>
                   <Tooltip content="Delete" position="bottom">
                     <Button
                       style="icon"
                       icon="ri-delete-bin-line"
-                      onClick={() => performDelete(note.id)}
+                      onClick={() => handleNoteDelete(note.id)}
                     />
                   </Tooltip>
                 </div>
