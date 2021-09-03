@@ -2,7 +2,7 @@ import React from "react";
 
 import { Checkbox, Badge, Avatar, Button, Tooltip } from "neetoui";
 
-const getTagColor = tag => {
+const renderTagColor = tag => {
   switch (tag) {
     case "Internal":
       return "blue";
@@ -30,7 +30,7 @@ export default function NoteTable({
 
   return (
     <div className="w-full px-4">
-      <table className="nui-table nui-table--checkbox table-fixed">
+      <table className="nui-table nui-table--checkbox">
         <thead>
           <tr>
             <th>
@@ -87,9 +87,9 @@ export default function NoteTable({
                   onClick={() => performEdit()}
                 ></Button>
               </td>
-              <td className="truncate">{note.description}</td>
+              <td className="truncate max-w-xs">{note.description}</td>
               <td>
-                <Badge color={getTagColor(note.tags)}>{note.tags}</Badge>
+                <Badge color={renderTagColor(note.tags)}>{note.tags}</Badge>
               </td>
               <td>{note.createdDate}</td>
               <td>{note.dueDate || "--"}</td>
