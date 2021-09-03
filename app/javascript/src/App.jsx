@@ -1,6 +1,7 @@
 import React from "react";
 
 import { AuthProvider } from "contexts/auth";
+import { ContactProvider } from "contexts/contact";
 import { NoteProvider } from "contexts/note";
 import { UserProvider } from "contexts/user";
 
@@ -11,7 +12,9 @@ const App = props => {
     <AuthProvider>
       <UserProvider>
         <NoteProvider>
-          <Main {...props} />
+          <ContactProvider>
+            <Main {...props} />
+          </ContactProvider>
         </NoteProvider>
       </UserProvider>
     </AuthProvider>
