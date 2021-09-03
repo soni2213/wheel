@@ -5,16 +5,9 @@ import { Checkbox, Avatar, Button, Tooltip } from "neetoui";
 export default function ContactTable({
   selectedContactIds,
   setSelectedContactIds,
-  contacts = [],
-  deleteAction
+  contacts = []
 }) {
   const [checkedContactIds, setCheckedContactIds] = useState([]);
-  const performDelete = contactId => {
-    setSelectedContactIds([contactId]);
-    deleteAction();
-  };
-
-  const performEdit = () => {};
 
   return (
     <div className="w-full px-4">
@@ -107,14 +100,14 @@ export default function ContactTable({
                     <Button
                       style="icon"
                       icon="ri-pencil-line"
-                      onClick={() => performEdit()}
+                      onClick={() => {}}
                     />
                   </Tooltip>
                   <Tooltip content="Delete" position="bottom">
                     <Button
                       style="icon"
                       icon="ri-delete-bin-line"
-                      onClick={() => performDelete(contact.id)}
+                      onClick={() => {}}
                     />
                   </Tooltip>
                 </div>

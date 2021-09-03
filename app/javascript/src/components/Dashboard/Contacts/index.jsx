@@ -86,7 +86,6 @@ const Contacts = () => {
             selectedContactIds={selectedContactIds}
             setSelectedContactIds={setSelectedContactIds}
             contacts={contacts}
-            deleteAction={() => {}}
           />
         </>
       ) : (
