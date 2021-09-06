@@ -27,13 +27,26 @@ export default {
     password: Yup.string().required("Required")
   }),
   newNoteform: Yup.object().shape({
-    contact: Yup.string().required("Assignee is required"),
+    contact: Yup.object()
+      .shape({
+        label: Yup.string().required("Contact is required"),
+        value: Yup.string().required("Contact is required")
+      })
+      .required("Contact is required"),
     description: Yup.string().required("Description is required"),
-    tags: Yup.string().required("Tag is required"),
+    tags: Yup.object()
+      .shape({
+        label: Yup.string().required("Tags is required"),
+        value: Yup.string().required("Tags is required")
+      })
+      .required("Tags is required"),
     title: Yup.string().required("Title is required")
   }),
   newContactform: Yup.object().shape({
-    department: Yup.string().required("Department is required"),
+    department: Yup.object().shape({
+      label: Yup.string().required("Department is required"),
+      value: Yup.string().required("Department is required")
+    }),
     email: Yup.string()
       .email("Invalid email address")
       .required("Email is required"),

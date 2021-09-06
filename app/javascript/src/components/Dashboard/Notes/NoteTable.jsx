@@ -19,14 +19,13 @@ export default function NoteTable({
   selectedNoteIds,
   setSelectedNoteIds,
   notes = [],
-  deleteAction
+  deleteAction,
+  handleNoteUpdate
 }) {
   const handleNoteDelete = noteId => {
     setSelectedNoteIds([noteId]);
     deleteAction();
   };
-
-  const handleNoteUpdate = () => {};
 
   return (
     <div className="w-full p-10">
@@ -38,7 +37,7 @@ export default function NoteTable({
                 checked={
                   selectedNoteIds.length === notes.map(note => note.id).length
                 }
-                onClick={() => {
+                onChange={() => {
                   const noteIds = notes.map(note => note.id);
                   if (selectedNoteIds.length === noteIds.length) {
                     setSelectedNoteIds([]);
@@ -63,7 +62,7 @@ export default function NoteTable({
               <td>
                 <Checkbox
                   checked={selectedNoteIds.includes(note.id)}
-                  onClick={event => {
+                  onChange={event => {
                     event.stopPropagation();
                     const index = selectedNoteIds.indexOf(note.id);
 
@@ -82,7 +81,7 @@ export default function NoteTable({
                 <Button
                   label={note.title}
                   style="link"
-                  onClick={() => handleNoteUpdate()}
+                  onClick={() => handleNoteUpdate(note)}
                 ></Button>
               </td>
               <td className="truncate max-w-0">{note.description}</td>
@@ -104,7 +103,7 @@ export default function NoteTable({
                     <Button
                       style="icon"
                       icon="ri-pencil-line"
-                      onClick={() => handleNoteUpdate()}
+                      onClick={() => handleNoteUpdate(note)}
                     />
                   </Tooltip>
                   <Tooltip content="Delete" position="bottom">

@@ -46,7 +46,7 @@ export default function ContactTable({
                   selectedContactIds.length ===
                   contacts.map(contact => contact.id).length
                 }
-                onClick={() => {
+                onChange={() => {
                   const contactIds = contacts.map(contact => contact.id);
                   if (selectedContactIds.length === contactIds.length) {
                     setSelectedContactIds([]);
@@ -70,7 +70,7 @@ export default function ContactTable({
               <td>
                 <Checkbox
                   checked={selectedContactIds.includes(contact.id)}
-                  onClick={event => {
+                  onChange={event => {
                     event.stopPropagation();
                     handleCheckboxAction(
                       selectedContactIds,

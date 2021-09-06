@@ -34,6 +34,13 @@ export default {
     { label: "Created Date", value: "createdDate" },
     { label: "Due Date", value: "dueDate" }
   ],
-  TAGS: ["Bug", "Internal", "Agile Workflow"],
-  CONTACTS: ["John Dae", "Mr Nobody"]
+  TAGS: [
+    { label: "Bug", value: "bug" },
+    { label: "Internal", value: "internal" },
+    { label: "Agile Workflow", value: "Agile Workflow" }
+  ],
+  CONTACTS: [
+    { label: "Mr Nobody", value: "Mr Nobody" },
+    { label: "John Doe", value: "John Doe" }
+  ]
 };

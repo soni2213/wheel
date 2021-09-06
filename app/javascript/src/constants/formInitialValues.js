@@ -16,12 +16,12 @@ export default {
   newNoteform: {
     title: "",
     description: "",
-    tags: "",
-    contact: "",
+    tags: null,
+    contact: null,
     dueDate: ""
   },
   newContactform: {
-    department: "",
+    department: { label: "", value: "" },
     email: "",
     inBasecamp: false,
     mobile: "",
