@@ -29,7 +29,7 @@ export default function NoteTable({
   const handleNoteUpdate = () => {};
 
   return (
-    <div className="w-full px-4">
+    <div className="w-full p-10">
       <table className="nui-table nui-table--checkbox nui-table--hover nui-table--actions">
         <thead>
           <tr>
@@ -54,6 +54,7 @@ export default function NoteTable({
             <th className="text-left">Created Date</th>
             <th className="text-left">Due Date</th>
             <th className="text-left">Contact</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -84,7 +85,7 @@ export default function NoteTable({
                   onClick={() => handleNoteUpdate()}
                 ></Button>
               </td>
-              <td className="truncate max-w-xs">{note.description}</td>
+              <td className="truncate max-w-0">{note.description}</td>
               <td>
                 <Badge color={renderTagColor(note.tags)}>{note.tags}</Badge>
               </td>

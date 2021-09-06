@@ -34,10 +34,12 @@ export default {
   }),
   newContactform: Yup.object().shape({
     department: Yup.string().required("Department is required"),
-    email: Yup.string().email("Invalid email address").required("Required"),
+    email: Yup.string()
+      .email("Invalid email address")
+      .required("Email is required"),
     mobile: Yup.string()
       .matches(phoneRegExp, "Contact number is not valid")
-      .required("Required"),
+      .required("Contact number is required"),
     name: Yup.string().required("Name is required")
   })
 };

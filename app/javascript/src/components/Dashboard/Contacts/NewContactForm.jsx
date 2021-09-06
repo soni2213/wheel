@@ -58,7 +58,7 @@ export default function NewContactForm({
       onSubmit={handleSubmit}
       validationSchema={formValidationSchemas.newContactform}
     >
-      {({ isSubmitting, setFieldValue }) => (
+      {({ isSubmitting, setFieldValue, errors }) => (
         <Form className="space-y-6">
           <Input label="Name" name="name" />
           <Input label="Email" name="email" />
@@ -72,13 +72,16 @@ export default function NewContactForm({
               setFieldValue("department", department.value)
             }
             options={transformTagOptions(constants.DEPARTMENTS)}
+            error={errors.department}
           />
-          <Switch
-            label="Add to Basecamp"
-            name="inBasecamp"
-            onChange={() => handleSwitchAction(!checked, setFieldValue)}
-            checked={checked}
-          />
+          <div className="flex justify-between">
+            <label>Add to Basecamp</label>
+            <Switch
+              name="inBasecamp"
+              onChange={() => handleSwitchAction(!checked, setFieldValue)}
+              checked={checked}
+            />
+          </div>
           <div className="nui-pane__footer nui-pane__footer--absolute">
             <Button
               onClick={onClose}

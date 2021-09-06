@@ -52,7 +52,7 @@ export default function NewNoteForm({ onClose }) {
       onSubmit={handleSubmit}
       validationSchema={formValidationSchemas.newNoteform}
     >
-      {({ isSubmitting, values, setFieldValue }) => (
+      {({ isSubmitting, values, setFieldValue, errors }) => (
         <Form className="space-y-6">
           <Input label="Note Title" name="title" />
           <Select
@@ -62,6 +62,7 @@ export default function NewNoteForm({ onClose }) {
             name="tags"
             onChange={tag => setFieldValue("tags", tag.value)}
             options={transformTagOptions(constants.TAGS)}
+            error={errors.tags}
           />
           <Textarea label="Note Description" name="description" rows={8} />
           <Select
@@ -71,12 +72,15 @@ export default function NewNoteForm({ onClose }) {
             name="contact"
             onChange={assignee => setFieldValue("contact", assignee.value)}
             options={transformTagOptions(constants.CONTACTS)}
+            error={errors.contact}
           />
-          <Switch
-            label="Add Due Date to Note"
-            onChange={() => setSwitchCheckbox(!checked)}
-            checked={checked}
-          />
+          <div className="flex justify-between">
+            <label className="text-gray-900">Add Due Date to Note</label>
+            <Switch
+              onChange={() => setSwitchCheckbox(!checked)}
+              checked={checked}
+            />
+          </div>
           {checked && (
             <DateInput
               selected={values.dueDate}
