@@ -59,14 +59,13 @@ export default function NewContactForm({
       validationSchema={formValidationSchemas.newContactform}
     >
       {({ isSubmitting, setFieldValue }) => (
-        <Form>
-          <Input label="Name" name="name" className="mb-6" />
-          <Input label="Email" name="email" className="mb-6" />
-          <Input label="Contact Number" name="mobile" className="mb-6" />
+        <Form className="space-y-6">
+          <Input label="Name" name="name" />
+          <Input label="Email" name="email" />
+          <Input label="Contact Number" name="mobile" />
           <Select
             placeholder="Select an option"
             label="Department"
-            className="mb-6"
             isDisabled={false}
             name="department"
             onChange={department =>
@@ -75,7 +74,6 @@ export default function NewContactForm({
             options={transformTagOptions(constants.DEPARTMENTS)}
           />
           <Switch
-            className="mb-6"
             label="Add to Basecamp"
             name="inBasecamp"
             onChange={() => handleSwitchAction(!checked, setFieldValue)}
