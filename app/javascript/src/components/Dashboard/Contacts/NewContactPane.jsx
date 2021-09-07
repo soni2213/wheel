@@ -8,7 +8,8 @@ export default function NewContactPane({
   showPane,
   setShowPane,
   checkedContactIds,
-  setCheckedContactIds
+  setCheckedContactIds,
+  selectedContact
 }) {
   const onClose = () => setShowPane(false);
   return (
@@ -18,6 +19,7 @@ export default function NewContactPane({
           onClose={onClose}
           checkedContactIds={checkedContactIds}
           setCheckedContactIds={setCheckedContactIds}
+          selectedContact={selectedContact}
         />
       </div>
     </Pane>

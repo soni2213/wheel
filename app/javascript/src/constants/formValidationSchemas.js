@@ -27,17 +27,37 @@ export default {
     password: Yup.string().required("Required")
   }),
   newNoteform: Yup.object().shape({
-    contact: Yup.string().required("Assignee is required"),
+    contact: Yup.object()
+      .shape({
+        label: Yup.string().required("Contact is required"),
+        value: Yup.string().required("Contact is required")
+      })
+      .required("Contact is required")
+      .nullable(),
     description: Yup.string().required("Description is required"),
-    tags: Yup.string().required("Tag is required"),
+    tags: Yup.object()
+      .shape({
+        label: Yup.string().required("Tags is required"),
+        value: Yup.string().required("Tags is required")
+      })
+      .required("Tags is required")
+      .nullable(),
     title: Yup.string().required("Title is required")
   }),
   newContactform: Yup.object().shape({
-    department: Yup.string().required("Department is required"),
-    email: Yup.string().email("Invalid email address").required("Required"),
+    department: Yup.object()
+      .shape({
+        label: Yup.string().required("Department is required"),
+        value: Yup.string().required("Department is required")
+      })
+      .required("Department is required")
+      .nullable(),
+    email: Yup.string()
+      .email("Invalid email address")
+      .required("Email is required"),
     mobile: Yup.string()
       .matches(phoneRegExp, "Contact number is not valid")
-      .required("Required"),
+      .required("Contact number is required"),
     name: Yup.string().required("Name is required")
   })
 };

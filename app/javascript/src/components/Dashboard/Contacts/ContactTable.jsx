@@ -8,7 +8,8 @@ export default function ContactTable({
   checkedContactIds,
   setCheckedContactIds,
   contacts = [],
-  deleteAction
+  deleteAction,
+  handleContactUpdate
 }) {
   useEffect(() => {
     const contactIds = contacts
@@ -23,8 +24,6 @@ export default function ContactTable({
     deleteAction();
   };
 
-  const handleContactUpdate = () => {};
-
   const handleCheckboxAction = (contactIds, action, contact) => {
     const index = contactIds.indexOf(contact.id);
 
@@ -36,7 +35,7 @@ export default function ContactTable({
   };
 
   return (
-    <div className="w-full px-4">
+    <div className="w-full p-10">
       <table className="nui-table nui-table--checkbox nui-table--hover nui-table--actions">
         <thead>
           <tr>
@@ -46,7 +45,7 @@ export default function ContactTable({
                   selectedContactIds.length ===
                   contacts.map(contact => contact.id).length
                 }
-                onClick={() => {
+                onChange={() => {
                   const contactIds = contacts.map(contact => contact.id);
                   if (selectedContactIds.length === contactIds.length) {
                     setSelectedContactIds([]);
@@ -61,6 +60,7 @@ export default function ContactTable({
             <th className="text-left">Department</th>
             <th className="text-left">Contact Number</th>
             <th className="text-left">Add to Basecamp</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -69,7 +69,7 @@ export default function ContactTable({
               <td>
                 <Checkbox
                   checked={selectedContactIds.includes(contact.id)}
-                  onClick={event => {
+                  onChange={event => {
                     event.stopPropagation();
                     handleCheckboxAction(
                       selectedContactIds,
@@ -91,18 +91,20 @@ export default function ContactTable({
               <td>{contact.department}</td>
               <td>{contact.mobile}</td>
               <td>
-                <Checkbox
-                  name="inBasecamp"
-                  checked={checkedContactIds.includes(contact.id)}
-                  onChange={event => {
-                    event.stopPropagation();
-                    handleCheckboxAction(
-                      checkedContactIds,
-                      setCheckedContactIds,
-                      contact
-                    );
-                  }}
-                />
+                <div className="w-24 mx-auto">
+                  <Checkbox
+                    name="inBasecamp"
+                    checked={checkedContactIds.includes(contact.id)}
+                    onChange={event => {
+                      event.stopPropagation();
+                      handleCheckboxAction(
+                        checkedContactIds,
+                        setCheckedContactIds,
+                        contact
+                      );
+                    }}
+                  />
+                </div>
               </td>
               <td>
                 <div className="flex space-x-4">
@@ -110,7 +112,7 @@ export default function ContactTable({
                     <Button
                       style="icon"
                       icon="ri-pencil-line"
-                      onClick={() => handleContactUpdate()}
+                      onClick={() => handleContactUpdate(contact)}
                     />
                   </Tooltip>
                   <Tooltip content="Delete" position="bottom">

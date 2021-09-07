@@ -19,6 +19,7 @@ const Contacts = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedContactIds, setSelectedContactIds] = useState([]);
   const [checkedContactIds, setCheckedContactIds] = useState([]);
+  const [selectedContact, setSelectedContact] = useState({});
   const { contacts } = useContactState();
   const contactDispatch = useContactDispatch();
 
@@ -49,6 +50,17 @@ const Contacts = () => {
     }
   };
 
+  const handleContactUpdate = contact => {
+    setSelectedContact(contact);
+    setShowNewContactPane(true);
+  };
+
+  const handleClose = () => {
+    setSelectedContactIds([]);
+    setSelectedContact({});
+    setShowDeleteAlert(false);
+  };
+
   if (loading) {
     return <PageLoader />;
   }
@@ -58,7 +70,10 @@ const Contacts = () => {
         title="Contacts"
         actionBlock={
           <Button
-            onClick={() => setShowNewContactPane(true)}
+            onClick={() => {
+              setSelectedContact({});
+              setShowNewContactPane(true);
+            }}
             label="New Contact"
             icon="ri-add-line"
           />
@@ -98,6 +113,7 @@ const Contacts = () => {
             setCheckedContactIds={setCheckedContactIds}
             contacts={contacts}
             deleteAction={() => setShowDeleteAlert(true)}
+            handleContactUpdate={handleContactUpdate}
           />
         </>
       ) : (
@@ -114,11 +130,12 @@ const Contacts = () => {
         setShowPane={setShowNewContactPane}
         checkedContactIds={checkedContactIds}
         setCheckedContactIds={setCheckedContactIds}
+        selectedContact={selectedContact}
       />
       {showDeleteAlert && (
         <DeleteAlert
           selectedContactIds={selectedContactIds}
-          onClose={() => setShowDeleteAlert(false)}
+          onClose={() => handleClose()}
         />
       )}
     </>

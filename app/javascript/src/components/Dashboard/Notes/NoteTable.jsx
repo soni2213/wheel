@@ -19,17 +19,16 @@ export default function NoteTable({
   selectedNoteIds,
   setSelectedNoteIds,
   notes = [],
-  deleteAction
+  deleteAction,
+  handleNoteUpdate
 }) {
   const handleNoteDelete = noteId => {
     setSelectedNoteIds([noteId]);
     deleteAction();
   };
 
-  const handleNoteUpdate = () => {};
-
   return (
-    <div className="w-full px-4">
+    <div className="w-full p-10">
       <table className="nui-table nui-table--checkbox nui-table--hover nui-table--actions">
         <thead>
           <tr>
@@ -38,7 +37,7 @@ export default function NoteTable({
                 checked={
                   selectedNoteIds.length === notes.map(note => note.id).length
                 }
-                onClick={() => {
+                onChange={() => {
                   const noteIds = notes.map(note => note.id);
                   if (selectedNoteIds.length === noteIds.length) {
                     setSelectedNoteIds([]);
@@ -54,6 +53,7 @@ export default function NoteTable({
             <th className="text-left">Created Date</th>
             <th className="text-left">Due Date</th>
             <th className="text-left">Contact</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -62,7 +62,7 @@ export default function NoteTable({
               <td>
                 <Checkbox
                   checked={selectedNoteIds.includes(note.id)}
-                  onClick={event => {
+                  onChange={event => {
                     event.stopPropagation();
                     const index = selectedNoteIds.indexOf(note.id);
 
@@ -81,10 +81,10 @@ export default function NoteTable({
                 <Button
                   label={note.title}
                   style="link"
-                  onClick={() => handleNoteUpdate()}
+                  onClick={() => handleNoteUpdate(note)}
                 ></Button>
               </td>
-              <td className="truncate max-w-xs">{note.description}</td>
+              <td className="truncate max-w-0">{note.description}</td>
               <td>
                 <Badge color={renderTagColor(note.tags)}>{note.tags}</Badge>
               </td>
@@ -103,7 +103,7 @@ export default function NoteTable({
                     <Button
                       style="icon"
                       icon="ri-pencil-line"
-                      onClick={() => handleNoteUpdate()}
+                      onClick={() => handleNoteUpdate(note)}
                     />
                   </Tooltip>
                   <Tooltip content="Delete" position="bottom">

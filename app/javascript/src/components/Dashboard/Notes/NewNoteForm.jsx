@@ -2,37 +2,49 @@ import React, { useState } from "react";
 
 import dayjs from "dayjs";
 import { Formik, Form } from "formik";
-import { Button, Select, Switch, DateInput, Toastr } from "neetoui";
-import { Input, Textarea } from "neetoui/formik";
+import { Button, DateInput, Toastr, Switch } from "neetoui";
+import { Input, Textarea, Select } from "neetoui/formik";
 
 import formInitialValues from "constants/formInitialValues";
 import formValidationSchemas from "constants/formValidationSchemas";
 import constants from "constants/notes";
 import { useNoteDispatch } from "contexts/note";
 
-export default function NewNoteForm({ onClose }) {
+export default function NewNoteForm({ onClose, selectedNote }) {
   const [submitted, setSubmitted] = useState(false);
-  const [checked, setSwitchCheckbox] = useState(false);
+  const [checked, setSwitchCheckbox] = useState(!!selectedNote.dueDate);
   const noteDispatch = useNoteDispatch();
+
+  const formatOption = value => ({ label: value, value });
+
+  selectedNote = {
+    ...selectedNote,
+    tags: formatOption(selectedNote.tags),
+    contact: formatOption(selectedNote.contact),
+    dueDate: selectedNote.dueDate ? new Date(selectedNote.dueDate) : ""
+  };
 
   const handleSubmit = async values => {
     let note = {
       ...values,
-      id: Math.floor(Math.random() * (10 - 4)) + 4, // To generate a random number for id
+      id: selectedNote.id
+        ? selectedNote.id
+        : Math.floor(Math.random() * (10 - 4)) + 4, // To generate a random number for id
       dueDate: values.dueDate
         ? dayjs(values.dueDate, "DD/MM/YYYY").format("MMM DD, YYYY")
         : "",
       createdDate: dayjs(new Date(), "DD/MM/YYYY").format("MMM DD, YYYY"),
-      tags: values.tags.charAt(0).toUpperCase() + values.tags.substring(1)
+      tags: values.tags.label,
+      contact: values.contact.label
     };
     try {
       setSubmitted(true);
-      noteDispatch({
-        type: "ADD_NOTE",
-        payload: { note }
-      });
+      const type = selectedNote.id ? "UPDATE_NOTE" : "ADD_NOTE",
+        toastVerb = selectedNote.id ? "updated" : "added";
+
+      noteDispatch({ type, payload: { note } });
+      Toastr.success(`Note ${toastVerb} successfully`);
       onClose();
-      Toastr.success("Note added successfully");
     } catch (err) {
       logger.error(err);
     } finally {
@@ -40,72 +52,78 @@ export default function NewNoteForm({ onClose }) {
     }
   };
 
-  const transformTagOptions = options => {
-    return options.map(opt => ({ label: opt, value: opt.toLowerCase() }));
-  };
+  let initialValues = formInitialValues.newNoteform;
+  if (selectedNote.id) initialValues = { ...initialValues, ...selectedNote };
 
   return (
     <Formik
-      initialValues={formInitialValues.newNoteform}
+      initialValues={initialValues}
       validateOnBlur={submitted}
       validateOnChange={submitted}
       onSubmit={handleSubmit}
       validationSchema={formValidationSchemas.newNoteform}
     >
-      {({ isSubmitting, values, setFieldValue }) => (
-        <Form className="space-y-6">
-          <Input label="Note Title" name="title" />
-          <Select
-            placeholder="Select an option"
-            label="Tags"
-            isDisabled={false}
-            name="tags"
-            onChange={tag => setFieldValue("tags", tag.value)}
-            options={transformTagOptions(constants.TAGS)}
-          />
-          <Textarea label="Note Description" name="description" rows={8} />
-          <Select
-            placeholder="Select an option"
-            label="Assigned Contact"
-            isDisabled={false}
-            name="contact"
-            onChange={assignee => setFieldValue("contact", assignee.value)}
-            options={transformTagOptions(constants.CONTACTS)}
-          />
-          <Switch
-            label="Add Due Date to Note"
-            onChange={() => setSwitchCheckbox(!checked)}
-            checked={checked}
-          />
-          {checked && (
-            <DateInput
-              selected={values.dueDate}
-              format="DD/MM/YYYY"
-              minDate={new Date()}
-              value={formInitialValues.newNoteform.due_date}
-              label="Due Date"
-              onChange={date => setFieldValue("dueDate", date)}
+      {({ isSubmitting, values, setFieldValue, errors }) => {
+        return (
+          <Form className="space-y-6">
+            <Input label="Note Title" name="title" />
+            <Select
+              placeholder="Select an option"
+              value={values.tags}
+              label="Tags"
+              isDisabled={false}
+              name="tags"
+              options={constants.TAGS}
+              error={errors.tags}
             />
-          )}
-          <div className="nui-pane__footer nui-pane__footer--absolute">
-            <Button
-              onClick={onClose}
-              label="Cancel"
-              size="large"
-              style="secondary"
+            <Textarea label="Note Description" name="description" rows={8} />
+            <Select
+              placeholder="Select an option"
+              value={values.contact}
+              label="Assigned Contact"
+              isDisabled={false}
+              name="contact"
+              options={constants.CONTACTS}
+              error={errors.contact}
             />
-            <Button
-              type="submit"
-              label="Save changes"
-              size="large"
-              style="primary"
-              className="ml-2"
-              disabled={isSubmitting}
-              loading={isSubmitting}
-            />
-          </div>
-        </Form>
-      )}
+            <div className="flex justify-between">
+              <label className="text-gray-900">Add Due Date to Note</label>
+              <Switch
+                onChange={() => setSwitchCheckbox(!checked)}
+                checked={checked}
+              />
+            </div>
+            {checked && (
+              <DateInput
+                value={values.dueDate || undefined}
+                format="DD/MM/YYYY"
+                name="dueDate"
+                label="Due Date"
+                onChange={date => {
+                  setFieldValue("dueDate", date);
+                }}
+              />
+            )}
+            <div className="nui-pane__footer nui-pane__footer--absolute">
+              <Button
+                onClick={onClose}
+                label="Cancel"
+                size="large"
+                style="secondary"
+              />
+              <Button
+                type="submit"
+                label="Save changes"
+                size="large"
+                style="primary"
+                className="ml-2"
+                disabled={isSubmitting}
+                loading={isSubmitting}
+              />
+            </div>
+          </Form>
+        );
+      }}
     </Formik>
   );
 }

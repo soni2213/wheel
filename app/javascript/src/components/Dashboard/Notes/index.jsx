@@ -18,6 +18,7 @@ const Notes = () => {
   const [showDeleteAlert, setShowDeleteAlert] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedNoteIds, setSelectedNoteIds] = useState([]);
+  const [selectedNote, setSelectedNote] = useState({});
   const { notes } = useNoteState();
   const noteDispatch = useNoteDispatch();
 
@@ -48,6 +49,17 @@ const Notes = () => {
     }
   };
 
+  const handleNoteUpdate = note => {
+    setSelectedNote(note);
+    setShowNewNotePane(true);
+  };
+
+  const handleClose = () => {
+    setSelectedNoteIds([]);
+    setSelectedNote({});
+    setShowDeleteAlert(false);
+  };
+
   if (loading) {
     return <PageLoader />;
   }
@@ -57,7 +69,10 @@ const Notes = () => {
         title="Notes"
         actionBlock={
           <Button
-            onClick={() => setShowNewNotePane(true)}
+            onClick={() => {
+              setSelectedNote({});
+              setShowNewNotePane(true);
+            }}
             label="New Note"
             icon="ri-add-line"
           />
@@ -95,6 +110,7 @@ const Notes = () => {
             setSelectedNoteIds={setSelectedNoteIds}
             notes={notes}
             deleteAction={() => setShowDeleteAlert(true)}
+            handleNoteUpdate={handleNoteUpdate}
           />
         </>
       ) : (
@@ -109,11 +125,12 @@ const Notes = () => {
       <NewNotePane
         showPane={showNewNotePane}
         setShowPane={setShowNewNotePane}
+        selectedNote={selectedNote}
       />
       {showDeleteAlert && (
         <DeleteAlert
           selectedNoteIds={selectedNoteIds}
-          onClose={() => setShowDeleteAlert(false)}
+          onClose={() => handleClose()}
         />
       )}
     </>

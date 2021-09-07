@@ -16,6 +16,19 @@ const contactReducer = (state, { type, payload }) => {
       );
       return { contacts };
     }
+    case "UPDATE_CONTACT": {
+      const updatedContact = state.contacts.find(
+        contact => contact.id === payload.contact.id
+      );
+      const index = state.contacts.indexOf(updatedContact);
+      const contacts = [
+        ...state.contacts.slice(0, index),
+        payload.contact,
+        ...state.contacts.slice(index + 1)
+      ];
+
+      return { contacts };
+    }
     default: {
       throw new Error(`Unhandled action type: ${type}`);
     }
