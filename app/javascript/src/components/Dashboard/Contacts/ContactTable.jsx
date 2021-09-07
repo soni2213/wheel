@@ -8,7 +8,8 @@ export default function ContactTable({
   checkedContactIds,
   setCheckedContactIds,
   contacts = [],
-  deleteAction
+  deleteAction,
+  handleContactUpdate
 }) {
   useEffect(() => {
     const contactIds = contacts
@@ -22,8 +23,6 @@ export default function ContactTable({
     setSelectedContactIds([noteId]);
     deleteAction();
   };
-
-  const handleContactUpdate = () => {};
 
   const handleCheckboxAction = (contactIds, action, contact) => {
     const index = contactIds.indexOf(contact.id);
@@ -113,7 +112,7 @@ export default function ContactTable({
                     <Button
                       style="icon"
                       icon="ri-pencil-line"
-                      onClick={() => handleContactUpdate()}
+                      onClick={() => handleContactUpdate(contact)}
                     />
                   </Tooltip>
                   <Tooltip content="Delete" position="bottom">

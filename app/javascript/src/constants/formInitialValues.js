@@ -21,7 +21,7 @@ export default {
     dueDate: ""
   },
   newContactform: {
-    department: { label: "", value: "" },
+    department: null,
     email: "",
     inBasecamp: false,
     mobile: "",

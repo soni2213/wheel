@@ -29,5 +29,8 @@ export default {
     { label: "Name", value: "name" },
     { label: "Department", value: "department" }
   ],
-  DEPARTMENTS: ["Engineering", "R&D"]
+  DEPARTMENTS: [
+    { label: "Engineering", value: "engineering" },
+    { label: "R&D", value: "R&D" }
+  ]
 };
