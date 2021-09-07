@@ -6,8 +6,9 @@ import NewNoteForm from "./NewNoteForm";
 
 export default function NewNotePane({ showPane, setShowPane, selectedNote }) {
   const onClose = () => setShowPane(false);
+  const title = selectedNote.id ? "Update Note" : "Add Note";
   return (
-    <Pane title="Add Note" isOpen={showPane} onClose={onClose}>
+    <Pane title={title} isOpen={showPane} onClose={onClose}>
       <div className="px-6">
         <NewNoteForm onClose={onClose} selectedNote={selectedNote} />
       </div>

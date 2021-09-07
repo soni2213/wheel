@@ -12,8 +12,9 @@ export default function NewContactPane({
   selectedContact
 }) {
   const onClose = () => setShowPane(false);
+  const title = selectedContact.id ? "Update Contact" : "Add Contact";
   return (
-    <Pane title="Add Contact" isOpen={showPane} onClose={onClose}>
+    <Pane title={title} isOpen={showPane} onClose={onClose}>
       <div className="px-6">
         <NewContactForm
           onClose={onClose}
